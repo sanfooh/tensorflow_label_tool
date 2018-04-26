@@ -46,6 +46,8 @@
             this.listBoxFiles = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelCount = new System.Windows.Forms.Label();
+            this.richTextBoxInfo = new System.Windows.Forms.RichTextBox();
             this.textBoxPreName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,8 +59,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonDownlaodImage = new System.Windows.Forms.Button();
             this.numericUpDownCount = new System.Windows.Forms.NumericUpDown();
-            this.richTextBoxInfo = new System.Windows.Forms.RichTextBox();
-            this.labelCount = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericUpDownZoomWidth = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numericUpDownZoomHeight = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -66,6 +70,8 @@
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -262,6 +268,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.numericUpDownZoomHeight);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.numericUpDownZoomWidth);
             this.groupBox1.Controls.Add(this.labelCount);
             this.groupBox1.Controls.Add(this.richTextBoxInfo);
             this.groupBox1.Controls.Add(this.textBoxPreName);
@@ -277,10 +287,29 @@
             this.groupBox1.Controls.Add(this.numericUpDownCount);
             this.groupBox1.Location = new System.Drawing.Point(17, 21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(908, 466);
+            this.groupBox1.Size = new System.Drawing.Size(908, 528);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "下载图片";
+            // 
+            // labelCount
+            // 
+            this.labelCount.AutoSize = true;
+            this.labelCount.Location = new System.Drawing.Point(484, 232);
+            this.labelCount.Name = "labelCount";
+            this.labelCount.Size = new System.Drawing.Size(35, 13);
+            this.labelCount.TabIndex = 12;
+            this.labelCount.Text = "label8";
+            // 
+            // richTextBoxInfo
+            // 
+            this.richTextBoxInfo.BackColor = System.Drawing.SystemColors.MenuText;
+            this.richTextBoxInfo.ForeColor = System.Drawing.SystemColors.Window;
+            this.richTextBoxInfo.Location = new System.Drawing.Point(27, 396);
+            this.richTextBoxInfo.Name = "richTextBoxInfo";
+            this.richTextBoxInfo.Size = new System.Drawing.Size(862, 126);
+            this.richTextBoxInfo.TabIndex = 11;
+            this.richTextBoxInfo.Text = "";
             // 
             // textBoxPreName
             // 
@@ -310,7 +339,7 @@
             // 
             // buttonImportDownload
             // 
-            this.buttonImportDownload.Location = new System.Drawing.Point(271, 277);
+            this.buttonImportDownload.Location = new System.Drawing.Point(271, 349);
             this.buttonImportDownload.Name = "buttonImportDownload";
             this.buttonImportDownload.Size = new System.Drawing.Size(99, 23);
             this.buttonImportDownload.TabIndex = 8;
@@ -320,14 +349,14 @@
             // 
             // progressBarDownloadImage
             // 
-            this.progressBarDownloadImage.Location = new System.Drawing.Point(53, 151);
+            this.progressBarDownloadImage.Location = new System.Drawing.Point(53, 223);
             this.progressBarDownloadImage.Name = "progressBarDownloadImage";
             this.progressBarDownloadImage.Size = new System.Drawing.Size(408, 23);
             this.progressBarDownloadImage.TabIndex = 0;
             // 
             // buttonClearDownloadFolder
             // 
-            this.buttonClearDownloadFolder.Location = new System.Drawing.Point(155, 277);
+            this.buttonClearDownloadFolder.Location = new System.Drawing.Point(155, 349);
             this.buttonClearDownloadFolder.Name = "buttonClearDownloadFolder";
             this.buttonClearDownloadFolder.Size = new System.Drawing.Size(88, 23);
             this.buttonClearDownloadFolder.TabIndex = 7;
@@ -344,7 +373,7 @@
             // 
             // buttonOpenDownloadPath
             // 
-            this.buttonOpenDownloadPath.Location = new System.Drawing.Point(53, 277);
+            this.buttonOpenDownloadPath.Location = new System.Drawing.Point(53, 349);
             this.buttonOpenDownloadPath.Name = "buttonOpenDownloadPath";
             this.buttonOpenDownloadPath.Size = new System.Drawing.Size(88, 23);
             this.buttonOpenDownloadPath.TabIndex = 6;
@@ -363,7 +392,7 @@
             // 
             // buttonDownlaodImage
             // 
-            this.buttonDownlaodImage.Location = new System.Drawing.Point(53, 192);
+            this.buttonDownlaodImage.Location = new System.Drawing.Point(53, 264);
             this.buttonDownlaodImage.Name = "buttonDownlaodImage";
             this.buttonDownlaodImage.Size = new System.Drawing.Size(212, 54);
             this.buttonDownlaodImage.TabIndex = 5;
@@ -383,24 +412,57 @@
             0,
             0});
             // 
-            // richTextBoxInfo
+            // label8
             // 
-            this.richTextBoxInfo.BackColor = System.Drawing.SystemColors.MenuText;
-            this.richTextBoxInfo.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBoxInfo.Location = new System.Drawing.Point(25, 334);
-            this.richTextBoxInfo.Name = "richTextBoxInfo";
-            this.richTextBoxInfo.Size = new System.Drawing.Size(862, 126);
-            this.richTextBoxInfo.TabIndex = 11;
-            this.richTextBoxInfo.Text = "";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(62, 155);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 13);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "缩放宽：";
             // 
-            // labelCount
+            // numericUpDownZoomWidth
             // 
-            this.labelCount.AutoSize = true;
-            this.labelCount.Location = new System.Drawing.Point(484, 160);
-            this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(35, 13);
-            this.labelCount.TabIndex = 12;
-            this.labelCount.Text = "label8";
+            this.numericUpDownZoomWidth.Location = new System.Drawing.Point(123, 153);
+            this.numericUpDownZoomWidth.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownZoomWidth.Name = "numericUpDownZoomWidth";
+            this.numericUpDownZoomWidth.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownZoomWidth.TabIndex = 14;
+            this.numericUpDownZoomWidth.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(62, 190);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(55, 13);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "缩放高：";
+            // 
+            // numericUpDownZoomHeight
+            // 
+            this.numericUpDownZoomHeight.Location = new System.Drawing.Point(123, 188);
+            this.numericUpDownZoomHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownZoomHeight.Name = "numericUpDownZoomHeight";
+            this.numericUpDownZoomHeight.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownZoomHeight.TabIndex = 16;
+            this.numericUpDownZoomHeight.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             // 
             // FormMain
             // 
@@ -422,6 +484,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomHeight)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -459,6 +523,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBoxInfo;
         private System.Windows.Forms.Label labelCount;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown numericUpDownZoomHeight;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown numericUpDownZoomWidth;
 
     }
 }

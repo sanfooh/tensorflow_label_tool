@@ -27,6 +27,8 @@ namespace TFLabelTool
         int imageDownloadCount = 10;
         string imageDownloadKey = "";
         string imageDownloadPre = "";
+        int zoomWidth = 0;
+        int zoomHeight = 0;
 
         string currentJPGName = "";
         string currentObjName = "";
@@ -201,16 +203,14 @@ namespace TFLabelTool
                                             {
                                                 using (Stream streamImage = resImage.GetResponseStream())
                                                 {
-                                                    using (Stream filestream = new FileStream(path, FileMode.Create))
-                                                    {
-                                                        streamImage.CopyTo(filestream);
+                                                        Bitmap b=new Bitmap(streamImage);
+                                                        ZoomImage(b, zoomHeight, zoomWidth).Save(path,System.Drawing.Imaging.ImageFormat.Jpeg);
                                                         imageCount++;
                                                         downloadImageThread.ReportProgress(imageCount);
                                                         if (imageCount>=imageDownloadCount)
                                                         {
                                                             return;
                                                         }
-                                                    }
                                                 }
                                             }
                                         }
@@ -556,6 +556,8 @@ namespace TFLabelTool
              imageDownloadCount = (int)numericUpDownCount.Value;
              imageDownloadKey = textBoxKey.Text;
              imageDownloadPre = textBoxPreName.Text;
+             zoomHeight = (int)numericUpDownZoomHeight.Value;
+             zoomWidth = (int)numericUpDownZoomWidth.Value;
              if (buttonDownlaodImage.Text == "启动")
              {
                  if (downloadImageThread.IsBusy)
@@ -594,5 +596,58 @@ namespace TFLabelTool
         {
             ImportFiles(imageDownloadPath);
         }
+
+
+        private Bitmap ZoomImage(Bitmap bitmap, int destHeight, int destWidth)
+        {
+            try
+            {
+                System.Drawing.Image sourImage = bitmap;
+                int width = 0, height = 0;
+                //按比例缩放             
+                int sourWidth = sourImage.Width;
+                int sourHeight = sourImage.Height;
+                if (sourHeight > destHeight || sourWidth > destWidth)
+                {
+                    if ((sourWidth * destHeight) > (sourHeight * destWidth))
+                    {
+                        width = destWidth;
+                        height = (destWidth * sourHeight) / sourWidth;
+                    }
+                    else
+                    {
+                        height = destHeight;
+                        width = (sourWidth * destHeight) / sourHeight;
+                    }
+                }
+                else
+                {
+                    width = sourWidth;
+                    height = sourHeight;
+                }
+                Bitmap destBitmap = new Bitmap(destWidth, destHeight);
+                Graphics g = Graphics.FromImage(destBitmap);
+                g.Clear(Color.Transparent);
+                //设置画布的描绘质量           
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                
+                g.DrawImage(sourImage, new Rectangle((destWidth - width) / 2, (destHeight - height) / 2, width, height), 0, 0, sourImage.Width, sourImage.Height, GraphicsUnit.Pixel);
+                g.Dispose();
+                //设置压缩质量       
+                System.Drawing.Imaging.EncoderParameters encoderParams = new System.Drawing.Imaging.EncoderParameters();
+                long[] quality = new long[1];
+                quality[0] = 100;
+                System.Drawing.Imaging.EncoderParameter encoderParam = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+                encoderParams.Param[0] = encoderParam;
+                sourImage.Dispose();
+                return destBitmap;
+            }
+            catch
+            {
+                return bitmap;
+            }
+        }  
     }
 }
