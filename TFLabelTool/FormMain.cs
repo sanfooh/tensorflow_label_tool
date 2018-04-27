@@ -101,7 +101,7 @@ namespace TFLabelTool
             var content = "";
             foreach (var item in listBoxLable.Items)
             {
-                content += item;
+                content += item+"\n";
             }
             File.AppendAllText(txt, content.Trim());
 
@@ -239,6 +239,7 @@ namespace TFLabelTool
 
         private void listBoxFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
+            label7.Text = "";
             if (listBoxFiles.SelectedItem != null)
             {
                 currentJPGName = Path.GetFileName(listBoxFiles.SelectedItem.ToString());
@@ -648,6 +649,11 @@ namespace TFLabelTool
             {
                 return bitmap;
             }
+        }
+
+        private void buttonOpenImageFolder_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", imagePath);
         }  
     }
 }

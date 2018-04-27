@@ -63,6 +63,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonDownlaodImage = new System.Windows.Forms.Button();
             this.numericUpDownCount = new System.Windows.Forms.NumericUpDown();
+            this.buttonOpenImageFolder = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -87,6 +88,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.buttonOpenImageFolder);
             this.tabPage1.Controls.Add(this.buttonAddObj);
             this.tabPage1.Controls.Add(this.textBoxAddObj);
             this.tabPage1.Controls.Add(this.label6);
@@ -176,7 +178,7 @@
             // 
             this.buttonClear.Location = new System.Drawing.Point(4, 24);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(220, 21);
+            this.buttonClear.Size = new System.Drawing.Size(110, 21);
             this.buttonClear.TabIndex = 18;
             this.buttonClear.Text = "删除无对应txt图片";
             this.buttonClear.UseVisualStyleBackColor = true;
@@ -469,6 +471,16 @@
             0,
             0});
             // 
+            // buttonOpenImageFolder
+            // 
+            this.buttonOpenImageFolder.Location = new System.Drawing.Point(114, 24);
+            this.buttonOpenImageFolder.Name = "buttonOpenImageFolder";
+            this.buttonOpenImageFolder.Size = new System.Drawing.Size(110, 21);
+            this.buttonOpenImageFolder.TabIndex = 26;
+            this.buttonOpenImageFolder.Text = "打开图片文件夹";
+            this.buttonOpenImageFolder.UseVisualStyleBackColor = true;
+            this.buttonOpenImageFolder.Click += new System.EventHandler(this.buttonOpenImageFolder_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -532,6 +544,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownZoomHeight;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDownZoomWidth;
+        private System.Windows.Forms.Button buttonOpenImageFolder;
 
     }
 }
