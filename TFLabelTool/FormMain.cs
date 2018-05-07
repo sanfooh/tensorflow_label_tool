@@ -168,6 +168,8 @@ namespace TFLabelTool
             progressBarDownloadImage.Value = (int)((float)e.ProgressPercentage * 100 / (int)numericUpDownCount.Value);
 
         }
+        string[] userAgent = { "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.3; rv:11.0) like Gecko", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11", 
+                                     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"};
 
         void downloadImageThread_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -200,6 +202,7 @@ namespace TFLabelTool
                                         string path = String.Format("{0}/{1}.jpg", imageDownloadPath,imageDownloadPre+ imageCount.ToString());
                                         HttpWebRequest reqImage = (HttpWebRequest)WebRequest.Create(objUrl);
                                         reqImage.Referer = "http://image.baidu.com/";
+                                        reqImage.UserAgent = userAgent[new Random(DateTime.Now.Millisecond).Next(userAgent.Length)];
                                         using (HttpWebResponse resImage = (HttpWebResponse)reqImage.GetResponse())
                                         {
                                             if (resImage.StatusCode == HttpStatusCode.OK)
