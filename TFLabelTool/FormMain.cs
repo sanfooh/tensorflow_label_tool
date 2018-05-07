@@ -13,6 +13,7 @@ using System.Threading;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Drawing.Imaging;
 
 namespace TFLabelTool
 {
@@ -153,6 +154,8 @@ namespace TFLabelTool
 
         }
 
+
+        #region 下载
         void downloadImageThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             progressBarDownloadImage.Value = 0;
@@ -203,11 +206,20 @@ namespace TFLabelTool
                                             {
                                                 using (Stream streamImage = resImage.GetResponseStream())
                                                 {
-                                                        Bitmap b=new Bitmap(streamImage);
-                                                        ZoomImage(b, zoomHeight, zoomWidth).Save(path,System.Drawing.Imaging.ImageFormat.Jpeg);
+                 
+                                                        Bitmap b = new Bitmap(streamImage);
+                                                        b = ZoomImage(b, zoomHeight, zoomWidth);
+                                                        var gram = GetHisogram(b);
+                                                        if (ExistSimlator(gram))
+                                                        {
+                                                            continue;
+                                                        }
+
+                                                        b.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                                        picPaths.Add(path);
                                                         imageCount++;
                                                         downloadImageThread.ReportProgress(imageCount);
-                                                        if (imageCount>=imageDownloadCount)
+                                                        if (imageCount >= imageDownloadCount)
                                                         {
                                                             return;
                                                         }
@@ -234,6 +246,135 @@ namespace TFLabelTool
                 }
             }
         }
+        private Bitmap ZoomImage(Bitmap bitmap, int destHeight, int destWidth)
+        {
+            try
+            {
+                System.Drawing.Image sourImage = bitmap;
+                int width = 0, height = 0;
+                //按比例缩放             
+                int sourWidth = sourImage.Width;
+                int sourHeight = sourImage.Height;
+                if (sourHeight > destHeight || sourWidth > destWidth)
+                {
+                    if ((sourWidth * destHeight) > (sourHeight * destWidth))
+                    {
+                        width = destWidth;
+                        height = (destWidth * sourHeight) / sourWidth;
+                    }
+                    else
+                    {
+                        height = destHeight;
+                        width = (sourWidth * destHeight) / sourHeight;
+                    }
+                }
+                else
+                {
+                    width = sourWidth;
+                    height = sourHeight;
+                }
+                Bitmap destBitmap = new Bitmap(destWidth, destHeight);
+                Graphics g = Graphics.FromImage(destBitmap);
+                g.Clear(Color.Transparent);
+                //设置画布的描绘质量           
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+                g.DrawImage(sourImage, new Rectangle((destWidth - width) / 2, (destHeight - height) / 2, width, height), 0, 0, sourImage.Width, sourImage.Height, GraphicsUnit.Pixel);
+                g.Dispose();
+                //设置压缩质量       
+                System.Drawing.Imaging.EncoderParameters encoderParams = new System.Drawing.Imaging.EncoderParameters();
+                long[] quality = new long[1];
+                quality[0] = 100;
+                System.Drawing.Imaging.EncoderParameter encoderParam = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+                encoderParams.Param[0] = encoderParam;
+                sourImage.Dispose();
+                return destBitmap;
+            }
+            catch
+            {
+                return bitmap;
+            }
+        }
+
+        List<int[]> grams = new List<int[]>();
+        List<string> picPaths = new List<string>();
+        bool ExistSimlator(int[] newPic)
+        {
+            int i = 0;
+            foreach (var item in grams)
+            {
+                var diff = GetResult(item, newPic);
+                Console.WriteLine(diff);
+                if (diff > 0.8)
+                {
+                    return true;
+                }
+                i++;
+            }
+            grams.Add(newPic);
+
+            return false;
+        }
+        public int[] GetHisogram(Bitmap img)
+        {
+
+            BitmapData data = img.LockBits(new System.Drawing.Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            int[] histogram = new int[256];
+            unsafe
+            {
+                byte* ptr = (byte*)data.Scan0;
+                int remain = data.Stride - data.Width * 3;
+                for (int i = 0; i < histogram.Length; i++)
+                    histogram[i] = 0;
+                for (int i = 0; i < data.Height; i++)
+                {
+                    for (int j = 0; j < data.Width; j++)
+                    {
+                        int mean = ptr[0] + ptr[1] + ptr[2];
+                        mean /= 3;
+                        histogram[mean]++;
+                        ptr += 3;
+                    }
+                    ptr += remain;
+                }
+            }
+            img.UnlockBits(data);
+            return histogram;
+
+        }
+
+
+        private float GetAbs(int firstNum, int secondNum)
+        {
+            float abs = Math.Abs((float)firstNum - (float)secondNum);
+            float result = Math.Max(firstNum, secondNum);
+            if (result == 0)
+                result = 1;
+            return abs / result;
+
+        }
+
+        public float GetResult(int[] firstNum, int[] scondNum)
+        {
+            if (firstNum.Length != scondNum.Length)
+            {
+                return 0;
+            }
+            else
+            {
+                float result = 0;
+                int j = firstNum.Length;
+                for (int i = 0; i < j; i++)
+                {
+                    result += 1 - GetAbs(firstNum[i], scondNum[i]);
+                }
+                return result / j;
+            }
+        }
+
+        #endregion
 
 
 
@@ -599,57 +740,7 @@ namespace TFLabelTool
         }
 
 
-        private Bitmap ZoomImage(Bitmap bitmap, int destHeight, int destWidth)
-        {
-            try
-            {
-                System.Drawing.Image sourImage = bitmap;
-                int width = 0, height = 0;
-                //按比例缩放             
-                int sourWidth = sourImage.Width;
-                int sourHeight = sourImage.Height;
-                if (sourHeight > destHeight || sourWidth > destWidth)
-                {
-                    if ((sourWidth * destHeight) > (sourHeight * destWidth))
-                    {
-                        width = destWidth;
-                        height = (destWidth * sourHeight) / sourWidth;
-                    }
-                    else
-                    {
-                        height = destHeight;
-                        width = (sourWidth * destHeight) / sourHeight;
-                    }
-                }
-                else
-                {
-                    width = sourWidth;
-                    height = sourHeight;
-                }
-                Bitmap destBitmap = new Bitmap(destWidth, destHeight);
-                Graphics g = Graphics.FromImage(destBitmap);
-                g.Clear(Color.Transparent);
-                //设置画布的描绘质量           
-                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                
-                g.DrawImage(sourImage, new Rectangle((destWidth - width) / 2, (destHeight - height) / 2, width, height), 0, 0, sourImage.Width, sourImage.Height, GraphicsUnit.Pixel);
-                g.Dispose();
-                //设置压缩质量       
-                System.Drawing.Imaging.EncoderParameters encoderParams = new System.Drawing.Imaging.EncoderParameters();
-                long[] quality = new long[1];
-                quality[0] = 100;
-                System.Drawing.Imaging.EncoderParameter encoderParam = new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
-                encoderParams.Param[0] = encoderParam;
-                sourImage.Dispose();
-                return destBitmap;
-            }
-            catch
-            {
-                return bitmap;
-            }
-        }
+       
 
         private void buttonOpenImageFolder_Click(object sender, EventArgs e)
         {
