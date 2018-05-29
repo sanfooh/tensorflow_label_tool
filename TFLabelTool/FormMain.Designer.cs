@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonOpenImageFolder = new System.Windows.Forms.Button();
             this.buttonAddObj = new System.Windows.Forms.Button();
             this.textBoxAddObj = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -63,7 +64,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonDownlaodImage = new System.Windows.Forms.Button();
             this.numericUpDownCount = new System.Windows.Forms.NumericUpDown();
-            this.buttonOpenImageFolder = new System.Windows.Forms.Button();
+            this.linkLabelVideo = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -108,6 +109,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "标注";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // buttonOpenImageFolder
+            // 
+            this.buttonOpenImageFolder.Location = new System.Drawing.Point(114, 24);
+            this.buttonOpenImageFolder.Name = "buttonOpenImageFolder";
+            this.buttonOpenImageFolder.Size = new System.Drawing.Size(110, 21);
+            this.buttonOpenImageFolder.TabIndex = 26;
+            this.buttonOpenImageFolder.Text = "打开图片文件夹";
+            this.buttonOpenImageFolder.UseVisualStyleBackColor = true;
+            this.buttonOpenImageFolder.Click += new System.EventHandler(this.buttonOpenImageFolder_Click);
             // 
             // buttonAddObj
             // 
@@ -214,6 +225,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.linkLabelVideo);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Location = new System.Drawing.Point(230, 53);
@@ -471,15 +483,16 @@
             0,
             0});
             // 
-            // buttonOpenImageFolder
+            // linkLabelVideo
             // 
-            this.buttonOpenImageFolder.Location = new System.Drawing.Point(114, 24);
-            this.buttonOpenImageFolder.Name = "buttonOpenImageFolder";
-            this.buttonOpenImageFolder.Size = new System.Drawing.Size(110, 21);
-            this.buttonOpenImageFolder.TabIndex = 26;
-            this.buttonOpenImageFolder.Text = "打开图片文件夹";
-            this.buttonOpenImageFolder.UseVisualStyleBackColor = true;
-            this.buttonOpenImageFolder.Click += new System.EventHandler(this.buttonOpenImageFolder_Click);
+            this.linkLabelVideo.AutoSize = true;
+            this.linkLabelVideo.Location = new System.Drawing.Point(167, 353);
+            this.linkLabelVideo.Name = "linkLabelVideo";
+            this.linkLabelVideo.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelVideo.TabIndex = 2;
+            this.linkLabelVideo.TabStop = true;
+            this.linkLabelVideo.Text = "视频教程";
+            this.linkLabelVideo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVideo_LinkClicked);
             // 
             // FormMain
             // 
@@ -545,6 +558,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDownZoomWidth;
         private System.Windows.Forms.Button buttonOpenImageFolder;
+        private System.Windows.Forms.LinkLabel linkLabelVideo;
 
     }
 }

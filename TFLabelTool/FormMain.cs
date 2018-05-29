@@ -748,6 +748,11 @@ namespace TFLabelTool
         private void buttonOpenImageFolder_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", imagePath);
+        }
+
+        private void linkLabelVideo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://edu.csdn.net/course/detail/8274");
         }  
     }
 }
