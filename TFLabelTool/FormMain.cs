@@ -586,17 +586,17 @@ namespace TFLabelTool
             foreach (var item in listBoxFiles.Items)
             {
                 var txtFile = item.ToString().Replace(".jpg", ".txt").Replace(".JPG", ".txt");
-                if (item.ToString().Contains("6733"))
-                {
-                    int i = 111;
-                    i++;
-                }
                 if (!File.Exists(txtFile))
                 {
                     File.Delete(item.ToString());
                 }
                 else
                 {
+                    if (File.ReadAllText(txtFile).Trim() == "")
+                    {
+                        File.Delete(item.ToString());
+                        File.Delete(txtFile);
+                    }
                     if (item.ToString().EndsWith(".JPG"))
                     {
                         File.Move(item.ToString(), item.ToString().Replace(".JPG", ".jpg"));
@@ -690,6 +690,31 @@ namespace TFLabelTool
                 }
             }
         }
+        private void listBoxLable_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (listBoxLable.SelectedIndex != -1)
+            {
+                var line = listBoxLable.SelectedItem.ToString();
+                if (line != "")
+                {
+                    var items = line.Split(' ');
+                    var width = Convert.ToDouble(items[0]);
+                    var height = Convert.ToDouble(items[1]);
+                    var xmins= Convert.ToDouble(items[4]);
+                    var ymins = Convert.ToDouble(items[6]);
+                    var xmaxs = Convert.ToDouble(items[5]);
+                    var ymaxs = Convert.ToDouble(items[7]);
+                    int x1 = (int)(width * xmins);
+                    int y1 = (int)(height * ymins);
+                    int x2 = (int)(width * xmaxs);
+                    int y2 = (int)(height * ymaxs);
+                    Rect.Location = new Point(x1,y1);
+                    Rect.Size = new Size(x2-x1,y2-y1);
+                    pictureBox1.Invalidate();
+
+                }
+            }
+        }
 
         private void buttonDownlaodImage_Click(object sender, EventArgs e)
         {
@@ -753,6 +778,8 @@ namespace TFLabelTool
         private void linkLabelVideo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://edu.csdn.net/course/detail/8274");
-        }  
+        }
+
+    
     }
 }
