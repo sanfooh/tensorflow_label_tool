@@ -22,7 +22,7 @@ namespace TFLabelTool
         string outputPath = "";
         string imagePath = "";
         string labelMapPath = "";
-        
+
 
         string imageDownloadPath = "";
         int imageDownloadCount = 10;
@@ -102,7 +102,7 @@ namespace TFLabelTool
             var content = "";
             foreach (var item in listBoxLable.Items)
             {
-                content += item+"\n";
+                content += item + "\n";
             }
             File.AppendAllText(txt, content.Trim());
 
@@ -164,11 +164,11 @@ namespace TFLabelTool
 
         void downloadImageThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            labelCount.Text =((int) e.ProgressPercentage).ToString();
+            labelCount.Text = ((int)e.ProgressPercentage).ToString();
             progressBarDownloadImage.Value = (int)((float)e.ProgressPercentage * 100 / (int)numericUpDownCount.Value);
 
         }
-        string[] userAgent = { "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.3; rv:11.0) like Gecko", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11", 
+        string[] userAgent = { "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.3; rv:11.0) like Gecko", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11",
                                      "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; SE 2.X MetaSr 1.0; SE 2.X MetaSr 1.0; .NET CLR 2.0.50727; SE 2.X MetaSr 1.0)", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"};
 
         void downloadImageThread_DoWork(object sender, DoWorkEventArgs e)
@@ -199,7 +199,7 @@ namespace TFLabelTool
                                     string objUrl = (string)img["objURL"];
                                     try
                                     {
-                                        string path = String.Format("{0}/{1}.jpg", imageDownloadPath,imageDownloadPre+ imageCount.ToString());
+                                        string path = String.Format("{0}/{1}.jpg", imageDownloadPath, imageDownloadPre + imageCount.ToString());
                                         HttpWebRequest reqImage = (HttpWebRequest)WebRequest.Create(objUrl);
                                         reqImage.Referer = "http://image.baidu.com/";
                                         reqImage.UserAgent = userAgent[new Random(DateTime.Now.Millisecond).Next(userAgent.Length)];
@@ -209,30 +209,31 @@ namespace TFLabelTool
                                             {
                                                 using (Stream streamImage = resImage.GetResponseStream())
                                                 {
-                 
-                                                        Bitmap b = new Bitmap(streamImage);
-                                                        b = ZoomImage(b, zoomHeight, zoomWidth);
-                                                        var gram = GetHisogram(b);
-                                                        if (ExistSimlator(gram))
-                                                        {
-                                                            continue;
-                                                        }
 
-                                                        b.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                                        picPaths.Add(path);
-                                                        imageCount++;
-                                                        downloadImageThread.ReportProgress(imageCount);
-                                                        if (imageCount >= imageDownloadCount)
-                                                        {
-                                                            return;
-                                                        }
+                                                    Bitmap b = new Bitmap(streamImage);
+                                                    b = ZoomImage(b, zoomHeight, zoomWidth);
+                                                    var gram = GetHisogram(b);
+                                                    if (ExistSimlator(gram))
+                                                    {
+                                                        continue;
+                                                    }
+
+                                                    b.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                                    picPaths.Add(path);
+                                                    imageCount++;
+                                                    downloadImageThread.ReportProgress(imageCount);
+                                                    if (imageCount >= imageDownloadCount)
+                                                    {
+                                                        return;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                     catch (Exception ex)
                                     {
-                                        BeginInvoke(new Action(() => {
+                                        BeginInvoke(new Action(() =>
+                                        {
                                             richTextBoxInfo.AppendText(ex.Message);
                                         }));
                                     }
@@ -402,6 +403,11 @@ namespace TFLabelTool
 
                 }
                 ClearSelect();
+                if (listBoxLable.Items.Count > 0)
+                {
+                    listBoxLable.SelectedIndex = 0;
+                    listBoxLable_MouseClick(null, null);
+                }
             }
         }
         private Point RectStartPoint;
@@ -558,6 +564,11 @@ namespace TFLabelTool
                         }
                     }
                     else
+                    if (listBoxFiles.SelectedItems.Count == 0)
+                    {
+                        return;
+                    }
+                    else
                     {
 
                         foreach (var item in listBoxFiles.SelectedItems)
@@ -661,14 +672,16 @@ namespace TFLabelTool
                         string desFilePath = imagePath + file.Name;
                         if (!File.Exists(desFilePath))
                         {
-                            File.Copy(file.FullName, imagePath + file.Name, true);
+                            var f = ZoomImage(new Bitmap(Bitmap.FromFile(file.FullName)), (int)numericUpDownImportHeight.Value, (int)numericUpDownImportHeight.Value);
+                            f.Save(imagePath + file.Name);
+                            //File.Copy(file.FullName, imagePath + file.Name, true);
                             listBoxFiles.Items.Add(imagePath + file.Name);
                         }
 
                     }
                 }
             }
-         
+
         }
 
         private void listBoxLableIndex_SelectedIndexChanged(object sender, EventArgs e)
@@ -700,7 +713,7 @@ namespace TFLabelTool
                     var items = line.Split(' ');
                     var width = Convert.ToDouble(items[0]);
                     var height = Convert.ToDouble(items[1]);
-                    var xmins= Convert.ToDouble(items[4]);
+                    var xmins = Convert.ToDouble(items[4]);
                     var ymins = Convert.ToDouble(items[6]);
                     var xmaxs = Convert.ToDouble(items[5]);
                     var ymaxs = Convert.ToDouble(items[7]);
@@ -708,8 +721,8 @@ namespace TFLabelTool
                     int y1 = (int)(height * ymins);
                     int x2 = (int)(width * xmaxs);
                     int y2 = (int)(height * ymaxs);
-                    Rect.Location = new Point(x1,y1);
-                    Rect.Size = new Size(x2-x1,y2-y1);
+                    Rect.Location = new Point(x1, y1);
+                    Rect.Size = new Size(x2 - x1, y2 - y1);
                     pictureBox1.Invalidate();
 
                 }
@@ -718,35 +731,34 @@ namespace TFLabelTool
 
         private void buttonDownlaodImage_Click(object sender, EventArgs e)
         {
-            if (textBoxKey.Text.Trim()=="")
+            if (textBoxKey.Text.Trim() == "")
             {
                 MessageBox.Show("请填搜索关键字");
                 return;
             }
-             imageDownloadCount = (int)numericUpDownCount.Value;
-             imageDownloadKey = textBoxKey.Text;
-             imageDownloadPre = textBoxPreName.Text;
-             zoomHeight = (int)numericUpDownZoomHeight.Value;
-             zoomWidth = (int)numericUpDownZoomWidth.Value;
-             if (buttonDownlaodImage.Text == "启动")
-             {
-                 if (downloadImageThread.IsBusy)
-                 {
-                     MessageBox.Show("线程还没停止，请稍候再试");
-                 }
-                 else
-                 {
-                     isDownloadImageThreadRun = true;
-                     downloadImageThread.RunWorkerAsync();
-                     buttonDownlaodImage.Text = "停止";
-                     
-                 }
-             }
-             else
-             {
-                 isDownloadImageThreadRun = false;
-             }
-         
+            imageDownloadCount = (int)numericUpDownCount.Value;
+            imageDownloadKey = textBoxKey.Text;
+            imageDownloadPre = textBoxPreName.Text;
+            zoomHeight = zoomWidth = (int)numericUpDownZoomWidth.Value;
+            if (buttonDownlaodImage.Text == "启动")
+            {
+                if (downloadImageThread.IsBusy)
+                {
+                    MessageBox.Show("线程还没停止，请稍候再试");
+                }
+                else
+                {
+                    isDownloadImageThreadRun = true;
+                    downloadImageThread.RunWorkerAsync();
+                    buttonDownlaodImage.Text = "停止";
+
+                }
+            }
+            else
+            {
+                isDownloadImageThreadRun = false;
+            }
+
         }
 
         private void buttonOpenDownloadPath_Click(object sender, EventArgs e)
@@ -768,7 +780,7 @@ namespace TFLabelTool
         }
 
 
-       
+
 
         private void buttonOpenImageFolder_Click(object sender, EventArgs e)
         {
@@ -780,6 +792,6 @@ namespace TFLabelTool
             System.Diagnostics.Process.Start("https://edu.csdn.net/course/detail/8274");
         }
 
-    
+
     }
 }

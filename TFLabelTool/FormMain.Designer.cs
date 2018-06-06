@@ -48,8 +48,6 @@
             this.listBoxFiles = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.numericUpDownZoomHeight = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDownZoomWidth = new System.Windows.Forms.NumericUpDown();
             this.labelCount = new System.Windows.Forms.Label();
@@ -65,15 +63,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonDownlaodImage = new System.Windows.Forms.Button();
             this.numericUpDownCount = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.numericUpDownImportHeight = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImportHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -89,6 +89,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.numericUpDownImportHeight);
             this.tabPage1.Controls.Add(this.buttonOpenImageFolder);
             this.tabPage1.Controls.Add(this.buttonAddObj);
             this.tabPage1.Controls.Add(this.textBoxAddObj);
@@ -161,7 +163,7 @@
             // 
             // buttonImport
             // 
-            this.buttonImport.Location = new System.Drawing.Point(766, 20);
+            this.buttonImport.Location = new System.Drawing.Point(892, 20);
             this.buttonImport.Name = "buttonImport";
             this.buttonImport.Size = new System.Drawing.Size(75, 21);
             this.buttonImport.TabIndex = 21;
@@ -238,8 +240,9 @@
             // 
             // linkLabelVideo
             // 
+            this.linkLabelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelVideo.AutoSize = true;
-            this.linkLabelVideo.Location = new System.Drawing.Point(167, 326);
+            this.linkLabelVideo.Location = new System.Drawing.Point(715, 15);
             this.linkLabelVideo.Name = "linkLabelVideo";
             this.linkLabelVideo.Size = new System.Drawing.Size(53, 12);
             this.linkLabelVideo.TabIndex = 2;
@@ -297,8 +300,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.numericUpDownZoomHeight);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.numericUpDownZoomWidth);
             this.groupBox1.Controls.Add(this.labelCount);
@@ -321,44 +322,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "下载图片";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(62, 175);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 12);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "缩放高：";
-            // 
-            // numericUpDownZoomHeight
-            // 
-            this.numericUpDownZoomHeight.Location = new System.Drawing.Point(123, 174);
-            this.numericUpDownZoomHeight.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numericUpDownZoomHeight.Name = "numericUpDownZoomHeight";
-            this.numericUpDownZoomHeight.Size = new System.Drawing.Size(120, 21);
-            this.numericUpDownZoomHeight.TabIndex = 16;
-            this.numericUpDownZoomHeight.Value = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(62, 143);
+            this.label8.Location = new System.Drawing.Point(60, 143);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 12);
+            this.label8.Size = new System.Drawing.Size(65, 12);
             this.label8.TabIndex = 13;
-            this.label8.Text = "缩放宽：";
+            this.label8.Text = "缩放宽高：";
             // 
             // numericUpDownZoomWidth
             // 
-            this.numericUpDownZoomWidth.Location = new System.Drawing.Point(123, 141);
+            this.numericUpDownZoomWidth.Location = new System.Drawing.Point(125, 141);
             this.numericUpDownZoomWidth.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -498,6 +473,32 @@
             0,
             0});
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(755, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(65, 12);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "缩放宽高：";
+            // 
+            // numericUpDownImportHeight
+            // 
+            this.numericUpDownImportHeight.Location = new System.Drawing.Point(825, 19);
+            this.numericUpDownImportHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownImportHeight.Name = "numericUpDownImportHeight";
+            this.numericUpDownImportHeight.Size = new System.Drawing.Size(45, 21);
+            this.numericUpDownImportHeight.TabIndex = 28;
+            this.numericUpDownImportHeight.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -517,9 +518,9 @@
             this.tabPage2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZoomWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImportHeight)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -557,13 +558,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBoxInfo;
         private System.Windows.Forms.Label labelCount;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown numericUpDownZoomHeight;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDownZoomWidth;
         private System.Windows.Forms.Button buttonOpenImageFolder;
         private System.Windows.Forms.LinkLabel linkLabelVideo;
-
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown numericUpDownImportHeight;
     }
 }
 
