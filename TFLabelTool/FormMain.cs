@@ -673,7 +673,7 @@ namespace TFLabelTool
                         if (!File.Exists(desFilePath))
                         {
                             var f = ZoomImage(new Bitmap(Bitmap.FromFile(file.FullName)), (int)numericUpDownImportHeight.Value, (int)numericUpDownImportHeight.Value);
-                            f.Save(imagePath + file.Name);
+                            f.Save(imagePath + file.Name, System.Drawing.Imaging.ImageFormat.Jpeg);
                             //File.Copy(file.FullName, imagePath + file.Name, true);
                             listBoxFiles.Items.Add(imagePath + file.Name);
                         }
