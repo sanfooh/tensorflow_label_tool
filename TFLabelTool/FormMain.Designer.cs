@@ -494,7 +494,7 @@
             this.numericUpDownImportHeight.Size = new System.Drawing.Size(45, 21);
             this.numericUpDownImportHeight.TabIndex = 28;
             this.numericUpDownImportHeight.Value = new decimal(new int[] {
-            500,
+            300,
             0,
             0,
             0});

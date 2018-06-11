@@ -67,7 +67,7 @@ namespace TFLabelTool
             {
                 lines += item + Environment.NewLine;
             }
-            Properties.Settings.Default.objects = lines;
+            Properties.Settings.Default.objects = lines.Trim();
             Properties.Settings.Default.Save();
         }
 
