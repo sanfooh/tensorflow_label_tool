@@ -553,6 +553,12 @@ namespace TFLabelTool
                 {
                     if (listBoxFiles.SelectedItems.Count == 1)
                     {
+                        FileInfo fi = new FileInfo(listBoxFiles.SelectedItem.ToString());
+                        if (fi.IsReadOnly)
+                        {
+                            fi.IsReadOnly = false;
+
+                        }
                         File.Delete(listBoxFiles.SelectedItem.ToString());
                         File.Delete(listBoxFiles.SelectedItem.ToString().Replace(".jpg", ".txt"));
                         listBoxLable.Items.Clear();
@@ -573,6 +579,11 @@ namespace TFLabelTool
 
                         foreach (var item in listBoxFiles.SelectedItems)
                         {
+                            FileInfo fi = new FileInfo(item.ToString());
+                            if (fi.IsReadOnly)
+                            {
+                                fi.IsReadOnly = false;
+                            }
                             File.Delete(item.ToString());
                             File.Delete(item.ToString().Replace(".jpg", ".txt"));
                             listBoxLable.Items.Clear();
@@ -672,8 +683,10 @@ namespace TFLabelTool
                         string desFilePath = imagePath + file.Name;
                         if (!File.Exists(desFilePath))
                         {
-                            var f = ZoomImage(new Bitmap(Bitmap.FromFile(file.FullName)), (int)numericUpDownImportHeight.Value, (int)numericUpDownImportHeight.Value);
+                            var image = Bitmap.FromFile(file.FullName);
+                            var f = ZoomImage(new Bitmap(image), (int)numericUpDownImportHeight.Value, (int)numericUpDownImportHeight.Value);
                             f.Save(imagePath + file.Name, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            image.Dispose();
                             //File.Copy(file.FullName, imagePath + file.Name, true);
                             listBoxFiles.Items.Add(imagePath + file.Name);
                         }
